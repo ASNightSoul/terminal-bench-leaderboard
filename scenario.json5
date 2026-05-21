@@ -1,16 +1,50 @@
 {
-  green_agent: {
-    agentbeats_id: "019d76c2-3bb7-7652-b932-76ad868837b0",
-    env: {},
-  },
-  participants: [
-    {
-      agentbeats_id: "019e4ad7-0400-7701-96da-1c357b386fd9",
-      name: "agent",
-      env: {
-        AGENT_LLM: "anthropic/claude-3.5-haiku",
-        OPENROUTER_API_KEY: "${OPENROUTER_API_KEY}",
-      },
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "openrouter_api_key": {
+        "type": "string",
+        "title": "OpenRouter API Key",
+        "secret": true
+      }
     },
+    "required": ["openrouter_api_key"],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": { "tasks": "all" },
+        "participant_roles": { "green": "green", "purple1": "agent" },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/terminal-bench-green/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/Luca-Bke/EROverflow/main/amber-manifest.json5",
+      "config": {
+        "openrouter_api_key": "${config.openrouter_api_key}"
+      }
+    }
+  },
+  "bindings": [
+    { "to": "#gateway.green", "from": "#green.a2a" },
+    { "to": "#gateway.purple1", "from": "#agent.a2a" },
+    { "to": "#green.proxy", "from": "#gateway.proxy", "weak": true }
   ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d76c2-3bb7-7652-b932-76ad868837b0",
+      "agent": "019e4ad7-0400-7701-96da-1c357b386fd9"
+    }
+  },
+  "experimental_features": ["docker"]
 }
