@@ -1,0 +1,16 @@
+{
+  green_agent: {
+    agentbeats_id: "019d76c2-3bb7-7652-b932-76ad868837b0",
+    env: {},
+  },
+  participants: [
+    {
+      agentbeats_id: "019e4ad7-0400-7701-96da-1c357b386fd9",
+      name: "agent",
+      env: {
+        AGENT_LLM: "anthropic/claude-3.5-haiku",
+        OPENROUTER_API_KEY: "${OPENROUTER_API_KEY}",
+      },
+    },
+  ],
+}
