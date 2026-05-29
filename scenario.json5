@@ -3,13 +3,13 @@
   "config_schema": {
     "type": "object",
     "properties": {
-      "openrouter_api_key": {
+      "academiccloud_api_key": {
         "type": "string",
         "title": "OpenRouter API Key",
         "secret": true
       }
     },
-    "required": ["openrouter_api_key"],
+    "required": ["academiccloud_api_key"],
     "additionalProperties": false
   },
   "components": {
@@ -28,7 +28,7 @@
     "agent": {
       "manifest": "https://raw.githubusercontent.com/Luca-Bke/EROverflow/main/amber-manifest.json5",
       "config": {
-        "openrouter_api_key": "${config.openrouter_api_key}"
+        "academiccloud_api_key": "${config.academiccloud_api_key}"
       }
     }
   },
